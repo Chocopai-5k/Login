@@ -1,20 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import {createBottomTabNavigator} from 'react-navigation'
+import HomePage from "./src/components/HomePage"
+import LoginPage from "./src/components/LoginPage"
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+const iconMap = {
+    Home: 'ios-home',
+    Login: 'ios-contact'
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default createBottomTabNavigator(
+    {
+        Login: LoginPage,
+        Home: HomePage
+    },
+    {
+        navigationOptions: ({navigation}) => ({
+            tabBarIcon: ({focused, tintColor}) => {
+                const {routeName} = navigation.state
+                const iconName = iconMap[routeName] || 'ios-information'
+
+                return <Ionicons name={iconName} size={25} color={tintColor}/>;
+            },
+        }),
+        tabBarOptions: {
+            activeTintColor: 'tomato',
+            inactiveTintColor: 'gray',
+        },
+    }
+)
